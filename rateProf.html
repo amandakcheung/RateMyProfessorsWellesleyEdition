@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Name of the website tab -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300&display=swap" rel="stylesheet">
+
+  <title>RateMyProfessors</title>
+
+  <script type="text/javascript">
+  	
+
+  	function createNewProfessor(event) {
+  		event.preventDefault();
+  		console.log('in the create new prof fxn');
+  		// console.log(event.targe[0].value);
+  		// console.log(event.targe[1].value);
+  		const data = new FormData(event.target);
+  		console.log(data);
+  		console.log(data.get('name'));
+
+  		const body = {
+		  name: data.get('name'),
+		  experience: data.get('experience'),
+		  diff: data.get('diff'),
+		  take: data.get('take'),
+		  tutors: data.get('tutors'),
+		  textbooks: data.get('textbooks'),
+		  attendance: data.get('attendance'),
+		  hours: data.get('hours'),
+		  structure: data.get('structure'),
+		  studying: data.get('studying')
+		};
+
+  		fetch('http://localhost:8080/cgi-bin/dump.cgi', {
+  			method: 'POST',
+  			headers: {
+  				'Accept': 'application/json',
+  				'Content-Type': 'application/json'
+  			},
+  			body: JSON.stringify(body)
+  		})
+  		.then((rawResponse) => rawResponse.json())
+  		.then((response) => {
+
+  			const { name, expRating, takeAgain, attendance, timeSpent, structure, studying, diffRating, taavail, txtbook } = response;
+
+  			const newProfDiv = document.getElementById('displayProfReviewContainer');
+
+  			const nameDiv = document.createElement('div');
+  			nameDiv.className += 'displayProfName';
+  			const nameHeader = document.createElement('h3');
+  			nameHeader.innerText = `Professor name: ${name}`;
+  			nameDiv.appendChild(nameHeader);
+  			newProfDiv.appendChild(nameDiv);
+
+  			console.log('reached here');
+
+  			const reviewDiv = document.createElement('div');
+  			reviewDiv.className += 'displayProfReview';
+
+  			const experienceParagraph = document.createElement('p');
+  			experienceParagraph.innerText = `Experience with the professor: ${expRating}`
+  			reviewDiv.appendChild(experienceParagraph);
+
+
+  			const difficultyParagraph = document.createElement('p');
+  			difficultyParagraph.innerText = `Difficulty of the course: ${diffRating}`
+  			reviewDiv.appendChild(difficultyParagraph);
+
+
+
+  			const takeAgainParagraph = document.createElement('p');
+  			takeAgainParagraph.innerText = `Would you take a class with the professor again?: ${takeAgain}`
+  			reviewDiv.appendChild(takeAgainParagraph);
+
+  			const taAvailParagraph = document.createElement('p');
+  			taAvailParagraph.innerText = `Are there tutors or TAs available?: ${taavail}`
+  			reviewDiv.appendChild(taAvailParagraph);
+
+  			const txtbookParagraph = document.createElement('p');
+  			txtbookParagraph.innerText = `Is there a required textbook?: ${txtbook}`
+  			reviewDiv.appendChild(txtbookParagraph);
+
+  			const attendanceParagraph = document.createElement('p');
+  			attendanceParagraph.innerText = `Is attendance mandatory?: ${attendance}`
+  			reviewDiv.appendChild(attendanceParagraph);
+
+  			const hoursParagraph = document.createElement('p');
+  			hoursParagraph.innerText = `Number of hours a week spent on the class with professor: ${timeSpent}`
+  			reviewDiv.appendChild(hoursParagraph);
+
+  			const structureParagraph = document.createElement('p');
+  			structureParagraph.innerText = `Structure of each class: ${structure}`
+  			reviewDiv.appendChild(structureParagraph);
+
+  			const studyingParagraph = document.createElement('p');
+  			studyingParagraph.innerText = `Recommendations for studying for the class: ${studying}`
+  			reviewDiv.appendChild(studyingParagraph);
+
+
+  			newProfDiv.appendChild(reviewDiv);
+
+
+/*
+  			<div class="displayProfName">
+		        <h3 class="displayProfNameTxt">Professor name: Rodensky, Lisa</h3>
+		    </div>
+		    <div class="displayProfReview">
+		        <p>Experience with the professor: 4.5/5</p>
+		        <p>Difficulty of the course: 2/5</p>
+		        <p>Would you take a class with the professor again?: 80% Yes, 20% No</p>
+		        <p>Are there tutors or TAs available?: 100% Yes</p>
+		        <p>Is there a required textbook?: 100% No</p>
+		        <p>Is attendance mandatory?: 100% Yes</p>
+		        <p>Number of hours a week spent on the class with professor: 10% 1-3, 40% 4-6, 25% 7-10, 15% 11-15, 10% 16+</p>
+		        <p>Structure of each class: Lectures interspersed with discussions, small group workshops; Writing workshops, Zoom and in-person classes; Discuss films in class after watching independently</p>
+		        <p>Recommendations for studying for the class: Watch the documentaries thoroughly; Participate in class discussions; Ask frequent questions</p>
+		    </div>
+*/
+  		})
+  		// fetch('http://localhost:3000/')
+  		// 	.then((rawResponse) => rawResponse.json())
+  		// 	.then((response) => console.log('success'));
+  	}
+  </script>
+</head>
+
+<!-- title / header parts -->
+
+<div class="titleBlock">
+    <h1 id="titleOfPage"><a href="index.html"></a>RateMyProfessors</h1>
+    <h6 id="subtitleOfPage"> Wellesley Edition </h6>
+</div>
+
+
+<div class="topnav">
+    <a href="index.html">Home</a>
+    <a class = active href="rateProf.html">Rate & View a Professor</a>
+    <a href="theCreators.html">The Creators</a>
+</div>
+  
+  <!-- Website page -->
+  
+<body>
+  
+
+<!--FORM-->
+<div class="titleOfForm"> <h3>ENTER A REVIEW FOR A PROFESSOR: </h3> </div>
+<form class="form" onsubmit="createNewProfessor(event)">
+    <p id="lastFirstName"><label>PROFESSOR'S LAST NAME, FIRST NAME: <input required name="name"></label></p>
+    <div class="restOfForm">
+    <p></p><label> 1.  Rate your experience with the professor on a scale of 1-5, 5 being the best:  
+        <select required name="experience">
+            <option value=""> </option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </label></p>
+    <label> 2.  Rate the difficulty of the course you took with the professor on a scale of 1-5, 5 being difficult:  
+        <select required name="diff">
+            <option value=""> </option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </label></p>
+    <label> 3.  Would you take a class with this professor again? 
+        <select required name="take">
+            <option value=""> </option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </label></p>
+    <label> 4.  Are there tutors or TAs available for help? 
+        <select required name="tutors">
+            <option value=""> </option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </label></p>
+    <label> 5.  Is there a required textbook? 
+        <select required name="textbooks">
+            <option value=""> </option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </label></p>
+    <label> 7.  Is attendance mandatory? 
+        <select required name="attendance">
+            <option value=""> </option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </label></p>
+    <label> 8.  How many hours a week did you spend on the class with this professor? 
+        <select required name="hours">
+            <option value=""> </option>
+            <option>1-3</option>
+            <option>4-6</option>
+            <option>7-10</option>
+            <option>11-15</option>
+            <option>16+</option>
+        </select>
+    </label></p>
+    <p><label>9.  What was the structure of each class like? <input required name="structure"></label></p>
+    <p><label>10.  How do you recommend studying for the class? <input required name="studying"></label></p>
+    <p id="submissionButton"><input type="submit" value=" SUBMIT REVIEW "></p>
+    </div>
+</form>
+
+<!-- <div class="displayProfName">
+        <h3 class="displayProfNameTxt">Professor name: Rodensky, Lisa</h3>
+    </div>
+    <div class="displayProfReview">
+        <p>Experience with the professor: 4.5/5</p>
+        <p>Difficulty of the course: 2/5</p>
+        <p>Would you take a class with the professor again?: 80% Yes, 20% No</p>
+        <p>Are there tutors or TAs available?: 100% Yes</p>
+        <p>Is there a required textbook?: 100% No</p>
+        <p>Is attendance mandatory?: 100% Yes</p>
+        <p>Number of hours a week spent on the class with professor: 10% 1-3, 40% 4-6, 25% 7-10, 15% 11-15, 10% 16+</p>
+        <p>Structure of each class: Lectures interspersed with discussions, small group workshops; Writing workshops, Zoom and in-person classes; Discuss films in class after watching independently</p>
+        <p>Recommendations for studying for the class: Watch the documentaries thoroughly; Participate in class discussions; Ask frequent questions</p>
+    </div> -->
+
+    <div id="displayProfReviewContainer">
+        
+    </div>
+
+</body>
+</html>

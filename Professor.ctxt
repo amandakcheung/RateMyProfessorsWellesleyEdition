@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=Professor
+comment0.text=\n\ {\n\ \ \ \ "name"\:\ "a",\n\ \ \ \ "scale"\:\ [\ "1",\ "2"\ ],\n\ \ \ \ "Y/N"\:\ [\ "Yes",\ "Yes",\ "No",\ "No"\ ],\n\ \ \ \ "Hours"\:\ "1-3",\n\ \ \ \ "structure"\:\ "f",\n\ \ \ \ "studying"\:\ "a"\n\ \ }\n
+comment1.params=
+comment1.target=java.lang.String\ getName()
+comment2.params=
+comment2.target=java.lang.String[]\ getScale()
+comment3.params=
+comment3.target=java.lang.String[]\ getYesNo()
+comment4.params=
+comment4.target=java.lang.String\ getHours()
+comment5.params=
+comment5.target=java.lang.String\ getStructure()
+comment6.params=
+comment6.target=java.lang.String\ getStudying()
+comment7.params=
+comment7.target=java.lang.String\ toString()
+numComments=8
